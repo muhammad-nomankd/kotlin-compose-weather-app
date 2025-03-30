@@ -19,8 +19,8 @@ class AddFavoriteCityUseCaseImpl @Inject constructor(
 ) : AddFavoriteCityUseCase {
     override suspend fun invoke(params: AddFavoriteCityUseCase.Params): Flow<DataResult<Unit>> =
         flow {
+            emit(DataResult.Loading)
             try {
-                emit(DataResult.Loading)
                 val result = repository.save(params.favoriteCity)
                 emit(DataResult.Success(result))
             } catch (e: Exception) {
