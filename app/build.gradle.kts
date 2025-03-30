@@ -63,6 +63,10 @@ android {
         unitTests {
             isIncludeAndroidResources = true
         }
+        unitTests.all {
+            it.useJUnitPlatform()
+            it.jvmArgs("-XX:+EnableDynamicAgentLoading")
+        }
     }
 }
 
@@ -92,6 +96,7 @@ dependencies {
 
     // Dagger Hilt
     implementation(libs.dagger.hilt.android)
+    testImplementation(libs.junit.jupiter)
     ksp(libs.dagger.hilt.android.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
     ksp(libs.androidx.hilt.navigation.compose)
@@ -113,18 +118,25 @@ dependencies {
 
     // Tests
     testImplementation(libs.junit)
+    testImplementation(libs.androidx.core.testing)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.androidx.room.testing)
+
     androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.core.testing)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    // Mockito
+    testImplementation(libs.mockito.core)
+    androidTestImplementation(libs.mockito.android)
+    // Mockk
+    testImplementation(libs.mockk)
     // Robolectric
     testImplementation(libs.robolectric)
     //Dagger Hilt
     androidTestImplementation(libs.hilt.android.testing)
     kspAndroidTest(libs.dagger.hilt.android.compiler)
-    // Mockito
-    testImplementation(libs.mockito.core)
-    androidTestImplementation(libs.mockito.android)
 }
