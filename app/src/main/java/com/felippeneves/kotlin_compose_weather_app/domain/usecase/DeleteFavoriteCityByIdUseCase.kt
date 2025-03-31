@@ -17,8 +17,8 @@ class DeleteFavoriteCityByIdUseCaseImpl(
 ) : DeleteFavoriteCityByIdUseCase {
     override suspend fun invoke(params: DeleteFavoriteCityByIdUseCase.Params): Flow<DataResult<Unit>> =
         flow {
+            emit(DataResult.Loading)
             try {
-                emit(DataResult.Loading)
                 emit(DataResult.Success(repository.deleteById(params.city)))
             } catch (e: Exception) {
                 emit(DataResult.Failure(e))
