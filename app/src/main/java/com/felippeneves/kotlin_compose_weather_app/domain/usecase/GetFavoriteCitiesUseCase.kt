@@ -16,8 +16,8 @@ class GetFavoriteCitiesUseCaseImpl(
     private val repository: FavoriteCityRepository
 ) : GetFavoriteCitiesUseCase {
     override suspend fun invoke(): Flow<DataResult<List<FavoriteCity>>> = flow {
+        emit(DataResult.Loading)
         try {
-            emit(DataResult.Loading)
             repository.getAll().collect { result ->
                 emit(DataResult.Success(result))
             }
