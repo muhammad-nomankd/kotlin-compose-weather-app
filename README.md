@@ -62,7 +62,7 @@ API_KEY=""
 ### Setup Instructions
 1. **Clone the repository**
    ```sh
-   git clone https://github.com/felippeneves/kotlin-compose-weather-app.git
+   git clone https://github.com/muhammad-nomankd/kotlin-compose-weather-app.git
    cd WeatherApp
    ```
 
@@ -143,11 +143,11 @@ For major changes, please open an issue first to discuss the proposal.
 
 ## 📨 Contact
 
-💬 **Author:** [Felippe Neves](https://github.com/felippeneves)  
-📌 **GitHub:** [WeatherApp](https://github.com/felippeneves/kotlin-compose-weather-app)
+💬 **Author:** [Felippe Neves](https://github.com/muhammad-nomankd)  
+📌 **GitHub:** [WeatherApp](https://github.com/muhammad-nomankd/kotlin-compose-weather-app)
 
 ---
 
-🔹 **Happy Coding! 🚀**
+🔹 **Good luck..! 🚀**
 
 
