@@ -143,7 +143,7 @@ For major changes, please open an issue first to discuss the proposal.
 
 ## 📨 Contact
 
-💬 **Author:** [Felippe Neves](https://github.com/muhammad-nomankd)  
+💬 **Author:** [Muhammad Noman](https://github.com/muhammad-nomankd)  
 📌 **GitHub:** [WeatherApp](https://github.com/muhammad-nomankd/kotlin-compose-weather-app)
 
 ---
