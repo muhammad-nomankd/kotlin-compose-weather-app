@@ -35,7 +35,7 @@ android {
         buildConfigField(
             type = "String",
             name = "API_KEY",
-            value = properties["API_KEY"].toString()
+            value = properties["API_KEY"]?.toString() ?: "d00134e85867c1394e1b58ef16362488"
         )
     }
 

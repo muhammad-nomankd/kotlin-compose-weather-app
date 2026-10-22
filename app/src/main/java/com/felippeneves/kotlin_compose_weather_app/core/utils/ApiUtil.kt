@@ -12,7 +12,7 @@ object ApiUtil {
     // region Endpoints
 
     const val PREFIX_API_DATA = "data"
-    const val FORECAST_DAILY_API = "forecast/daily"
+    const val FORECAST_API = "forecast"
 
     // endregion Endpoints
 

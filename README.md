@@ -46,7 +46,7 @@ To use the API, you need to obtain a free API key from OpenWeatherMap:
 3. Add the API Key to your project's `local.properties` file:
 
 ```properties
-API_KEY="your_api_key_here"
+API_KEY=""
 ```
 
 ---
@@ -72,7 +72,7 @@ API_KEY="your_api_key_here"
 3. **Add your API Key**  
    Edit `local.properties`:
    ```properties
-   API_KEY="your_api_key_here"
+   API_KEY=""
    ```
 
 4. **Run the project**

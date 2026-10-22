@@ -1,12 +1,13 @@
 package com.felippeneves.kotlin_compose_weather_app.presentation.features.search
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -19,7 +20,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -33,7 +33,6 @@ import com.felippeneves.kotlin_compose_weather_app.presentation.components.Searc
 import com.felippeneves.kotlin_compose_weather_app.presentation.features.search.events.SearchCityEvent
 import com.felippeneves.kotlin_compose_weather_app.presentation.features.search.state.SearchCityState
 import com.felippeneves.kotlin_compose_weather_app.presentation.navigation.NavigationManager
-import com.felippeneves.kotlin_compose_weather_app.ui.theme.Amber800
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
@@ -61,12 +60,13 @@ fun SearchCityContent(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues),
-            color = Color.White
+            color = Color(0xFFF1F5F9)
         ) {
             Column(
                 modifier = Modifier
+                    .background(MaterialTheme.colorScheme.background)
                     .fillMaxSize()
-                    .padding(16.dp),
+                    .padding(20.dp),
             ) {
                 SearchInput(
                     title = stringResource(R.string.city),
@@ -74,22 +74,23 @@ fun SearchCityContent(
                     onTextChanged = { onEvent(SearchCityEvent.UpdateQuery(it)) }
                 )
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(20.dp))
 
                 Button(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .wrapContentWidth(Alignment.CenterHorizontally),
+                        .height(54.dp),
+                    shape = RoundedCornerShape(16.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Amber800,
-                        contentColor = Color.White
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary
                     ),
+                    elevation = ButtonDefaults.buttonElevation(defaultElevation = 4.dp),
                     onClick = {
                         onEvent(SearchCityEvent.ConfirmCity)
                     },
                 ) {
                     Text(
-                        modifier = Modifier.padding(8.dp),
                         text = stringResource(R.string.search),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold

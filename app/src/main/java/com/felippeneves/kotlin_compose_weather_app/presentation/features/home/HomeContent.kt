@@ -1,10 +1,12 @@
 package com.felippeneves.kotlin_compose_weather_app.presentation.features.home
 
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.HorizontalDivider
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -17,7 +19,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,7 +30,7 @@ import com.felippeneves.kotlin_compose_weather_app.presentation.components.CityN
 import com.felippeneves.kotlin_compose_weather_app.presentation.components.CustomToast
 import com.felippeneves.kotlin_compose_weather_app.presentation.components.CustomTopAppBar
 import com.felippeneves.kotlin_compose_weather_app.presentation.components.LoadingIndicator
-import com.felippeneves.kotlin_compose_weather_app.presentation.features.home.components.DailyWeatherList
+import com.felippeneves.kotlin_compose_weather_app.presentation.features.home.components.DailyWeatherItem
 import com.felippeneves.kotlin_compose_weather_app.presentation.features.home.components.HumidityWindPressureRow
 import com.felippeneves.kotlin_compose_weather_app.presentation.features.home.components.SunsetSunriseRow
 import com.felippeneves.kotlin_compose_weather_app.presentation.features.home.components.WeatherStatusWidget
@@ -68,7 +69,7 @@ fun HomeContent(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues),
-            color = Color.White
+            color = MaterialTheme.colorScheme.background
         ) {
             when {
                 uiState.isLoading -> LoadingIndicator()
@@ -78,40 +79,51 @@ fun HomeContent(
                 }
 
                 else -> {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
+                    val currentWeather = weather.weeklyWeatherList.firstOrNull() ?: return@Surface
+
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize(),
+                        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp),
+                        verticalArrangement = Arrangement.spacedBy(6.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        val currentWeather = weather.weeklyWeatherList[0]
+                        item {
+                            Text(
+                                modifier = Modifier.padding(bottom = 2.dp),
+                                text = DateUtil.formatDate(currentWeather.timestampDate),
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                fontWeight = FontWeight.Medium
+                            )
+                        }
 
-                        Text(
-                            modifier = Modifier.padding(bottom = 8.dp),
-                            text = DateUtil.formatDate(currentWeather.timestampDate),
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = Color.Black,
-                            fontWeight = FontWeight.SemiBold,
-                        )
+                        item {
+                            WeatherStatusWidget(weather = currentWeather, isImperial = isImperial)
+                        }
 
-                        WeatherStatusWidget(weather = currentWeather, isImperial = isImperial)
+                        item {
+                            HumidityWindPressureRow(weather = currentWeather, isImperial = isImperial)
+                        }
 
-                        HumidityWindPressureRow(weather = currentWeather, isImperial = isImperial)
+                        item {
+                            SunsetSunriseRow(weather = currentWeather)
+                        }
 
-                        HorizontalDivider()
+                        item {
+                            Text(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(top = 10.dp, bottom = 4.dp),
+                                text = stringResource(R.string.this_week),
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.onBackground
+                            )
+                        }
 
-                        SunsetSunriseRow(weather = currentWeather)
-
-                        Text(
-                            text = stringResource(R.string.this_week),
-                            style = MaterialTheme.typography.titleLarge,
-                            fontWeight = FontWeight.Bold
-                        )
-
-                        DailyWeatherList(
-                            data = weather.weeklyWeatherList,
-                            isImperial = isImperial
-                        )
+                        items(items = weather.weeklyWeatherList) { item ->
+                            DailyWeatherItem(weather = item, isImperial = isImperial)
+                        }
                     }
                 }
             }

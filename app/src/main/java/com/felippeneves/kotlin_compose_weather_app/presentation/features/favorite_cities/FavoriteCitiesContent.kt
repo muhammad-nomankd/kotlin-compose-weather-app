@@ -49,7 +49,7 @@ fun FavoriteCitiesContent(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues),
-            color = Color.White
+            color = Color(0xFFF1F5F9)
         ) {
             when {
                 uiState.errorMessage.isNotEmpty() -> ErrorComp(errorMessage = uiState.errorMessage) {
@@ -61,7 +61,7 @@ fun FavoriteCitiesContent(
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(8.dp),
+                            .padding(16.dp),
                     ) {
                         FavoriteCitiesList(
                             data = uiState.favoriteCitiesList,

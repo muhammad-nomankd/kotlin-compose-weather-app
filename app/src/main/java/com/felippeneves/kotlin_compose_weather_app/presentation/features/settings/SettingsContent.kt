@@ -1,17 +1,24 @@
 package com.felippeneves.kotlin_compose_weather_app.presentation.features.settings
 
-import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.Done
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -24,12 +31,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.felippeneves.kotlin_compose_weather_app.R
@@ -42,7 +46,6 @@ import com.felippeneves.kotlin_compose_weather_app.presentation.features.setting
 import com.felippeneves.kotlin_compose_weather_app.presentation.features.settings.events.SettingsEvent
 import com.felippeneves.kotlin_compose_weather_app.presentation.features.settings.state.SettingsState
 import com.felippeneves.kotlin_compose_weather_app.presentation.navigation.NavigationManager
-import com.felippeneves.kotlin_compose_weather_app.ui.theme.Amber800
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
@@ -70,7 +73,7 @@ fun SettingsContent(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues),
-            color = Color.White
+            color = MaterialTheme.colorScheme.background
         ) {
             when {
                 uiState.errorMessage.isNotEmpty() -> ErrorComp(errorMessage = uiState.errorMessage) {
@@ -83,55 +86,110 @@ fun SettingsContent(
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(16.dp),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
+                            .padding(20.dp),
+                        verticalArrangement = Arrangement.Top,
+                        horizontalAlignment = Alignment.Start
                     ) {
                         Text(
-                            text = stringResource(id = R.string.change_units),
-                            style = MaterialTheme.typography.titleLarge
+                            text = "Preferences",
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier.padding(bottom = 12.dp)
                         )
-
-                        Spacer(modifier = Modifier.height(16.dp))
 
                         Surface(
                             modifier = Modifier
-                                .fillMaxWidth(0.5f)
-                                .clickable(
-                                    interactionSource = remember { MutableInteractionSource() },
-                                    indication = LocalIndication.current
-                                ) { onEvent(SettingsEvent.ShowMeasurementUnitListDialog) },
-                            shape = RectangleShape,
-                            color = Amber800
+                                .fillMaxWidth()
+                                .clickable { onEvent(SettingsEvent.ShowMeasurementUnitListDialog) },
+                            shape = RoundedCornerShape(20.dp),
+                            color = MaterialTheme.colorScheme.surfaceVariant,
+                            shadowElevation = 3.dp
                         ) {
-                            Text(
-                                modifier = Modifier.padding(16.dp),
-                                text = TemperatureFormatter.getUnitLabel(
-                                    uiState.measurementUnit,
-                                    LocalContext.current
-                                ),
-                                color = Color.White,
-                                style = MaterialTheme.typography.titleLarge,
-                                textAlign = TextAlign.Center,
-                            )
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.spacedBy(14.dp)
+                                ) {
+                                    Surface(
+                                        shape = CircleShape,
+                                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.15f),
+                                        modifier = Modifier.size(44.dp)
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Default.Settings,
+                                            contentDescription = null,
+                                            tint = MaterialTheme.colorScheme.primary,
+                                            modifier = Modifier
+                                                .padding(10.dp)
+                                                .size(24.dp)
+                                        )
+                                    }
+
+                                    Column {
+                                        Text(
+                                            text = stringResource(id = R.string.change_units),
+                                            style = MaterialTheme.typography.titleMedium,
+                                            fontWeight = FontWeight.Bold,
+                                            color = MaterialTheme.colorScheme.onSurface
+                                        )
+
+                                        Text(
+                                            text = TemperatureFormatter.getUnitLabel(
+                                                uiState.measurementUnit,
+                                                LocalContext.current
+                                            ),
+                                            style = MaterialTheme.typography.bodyMedium,
+                                            color = MaterialTheme.colorScheme.primary,
+                                            fontWeight = FontWeight.SemiBold
+                                        )
+                                    }
+                                }
+
+                                Icon(
+                                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                                    contentDescription = "Change unit",
+                                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
                         }
 
-                        Spacer(modifier = Modifier.height(16.dp))
+                        Spacer(modifier = Modifier.height(28.dp))
 
                         Button(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(54.dp),
+                            shape = RoundedCornerShape(16.dp),
                             colors = ButtonDefaults.buttonColors(
-                                containerColor = Amber800,
-                                contentColor = Color.White
+                                containerColor = MaterialTheme.colorScheme.primary,
+                                contentColor = MaterialTheme.colorScheme.onPrimary
                             ),
+                            elevation = ButtonDefaults.buttonElevation(defaultElevation = 4.dp),
                             onClick = {
                                 onEvent(SettingsEvent.SaveMeasurementUnit)
                             },
                         ) {
-                            Text(
-                                text = stringResource(R.string.save),
-                                style = MaterialTheme.typography.titleMedium,
-                                fontWeight = FontWeight.Bold
-                            )
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Done,
+                                    contentDescription = null
+                                )
+                                Text(
+                                    text = stringResource(R.string.save),
+                                    style = MaterialTheme.typography.titleMedium,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            }
                         }
                     }
                 }
@@ -139,6 +197,7 @@ fun SettingsContent(
 
             uiState.showMeasurementUnitListDialog.takeIf { it }?.let {
                 MeasurementUnitListDialog(
+                    selectedUnit = uiState.measurementUnit,
                     onConfirm = { unit -> onEvent(SettingsEvent.UpdateMeasurementUnit(unit)) },
                     onDismiss = { onEvent(SettingsEvent.DismissMeasurementUnitListDialog) },
                 )

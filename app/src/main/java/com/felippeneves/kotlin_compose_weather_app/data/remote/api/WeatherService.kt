@@ -10,7 +10,7 @@ import javax.inject.Singleton
 
 @Singleton
 interface WeatherService {
-    @GET("${ApiUtil.PREFIX_API_DATA}/${ApiUtil.V2_5}/${ApiUtil.FORECAST_DAILY_API}")
+    @GET("${ApiUtil.PREFIX_API_DATA}/${ApiUtil.V2_5}/${ApiUtil.FORECAST_API}")
     suspend fun fetchWeatherByCity(
         @Query(ApiUtil.QUERY_API_PARAM) query: String,
         @Query(ApiUtil.UNITS_API_PARAM) units: String = ApiUtil.UNITS_API_PARAM_DEFAULT_VALUE,
