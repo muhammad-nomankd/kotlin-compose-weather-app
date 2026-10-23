@@ -1,153 +1,151 @@
-# 🌦️ WeatherApp - Android (Kotlin Compose)
+# 🌦️ WeatherApp - Android (Kotlin & Jetpack Compose)
 
 [![Kotlin](https://img.shields.io/badge/Kotlin-2.0.0-blue.svg)](https://kotlinlang.org/)
-[![Jetpack Compose](https://img.shields.io/badge/Jetpack%20Compose-UI-green.svg)](https://developer.android.com/jetpack/compose)
-[![MVVM](https://img.shields.io/badge/MVVM-Architecture-orange.svg)](https://developer.android.com/topic/architecture)
+[![Jetpack Compose](https://img.shields.io/badge/Jetpack%20Compose-Material%203-green.svg)](https://developer.android.com/jetpack/compose)
+[![Clean Architecture](https://img.shields.io/badge/Clean%20Architecture-MVVM-orange.svg)](https://developer.android.com/topic/architecture)
 [![Dagger Hilt](https://img.shields.io/badge/Dagger%20Hilt-DI-blue.svg)](https://developer.android.com/training/dependency-injection/hilt-android)
+[![OpenWeatherMap](https://img.shields.io/badge/OpenWeatherMap-Free%20Tier%20Ready-brightgreen.svg)](https://openweathermap.org/)
+[![Unit Tests](https://img.shields.io/badge/Tests-21%20Passed-success.svg)](https://github.com/)
+
+---
 
 ## 🚀 Overview
 
-**WeatherApp** is a modern Android application built using **Kotlin Compose**, following the **MVVM** architecture and **Clean Architecture** principles. The app integrates with the **[OpenWeatherMap API](https://api.openweathermap.org)** to fetch real-time weather data.
+**WeatherApp** is a modern, responsive Android application built completely with **Jetpack Compose** and **Material 3**, following strict **Clean Architecture** and **MVVM** design principles. 
 
-## ✨ Features
-
-👉 **Jetpack Compose** for a modern, declarative UI  
-👉 **MVVM + Clean Architecture** for scalable and maintainable code  
-👉 **Retrofit** for seamless network requests  
-👉 **Room** for local database storage  
-👉 **Dagger Hilt** for dependency injection  
-👉 **Coroutines & Flow** for efficient asynchronous programming  
-👉 **Unit & UI Testing** with JUnit, Mockito, and Robolectric  
+The application integrates with the **[OpenWeatherMap API](https://openweathermap.org/)** using the **Free 5-Day / 3-Hour Forecast endpoint** (`/data/2.5/forecast`), making it 100% accessible with a standard free API key without encountering `401 Unauthorized` restrictions.
 
 ---
 
-## 🛠️ Tech Stack
+## 📸 Screenshots
 
-| Category            | Technology |
-|--------------------|------------|
-| **Language**      | Kotlin |
-| **UI Framework**  | Jetpack Compose |
-| **Architecture**  | MVVM + Clean Architecture |
-| **Networking**    | Retrofit |
-| **Database**      | Room |
-| **Async**        | Coroutines, Flow |
-| **Dependency Injection** | Dagger Hilt |
-| **Testing**       | JUnit, Mockito, Robolectric |
+| Home Screen | Search Screen |
+|:---:|:---:|
+| <img src="screenshots/home_screen.png" width="320"/> | <img src="screenshots/search_screen.png" width="320"/> |
+
+| Favorite Cities Screen | Settings Screen |
+|:---:|:---:|
+| <img src="screenshots/favorite_cities_screen.png" width="320"/> | <img src="screenshots/settings_screen.png" width="320"/> |
+
 
 ---
 
-## 🔗 API Integration
+## ✨ Features & Highlights
 
-This app uses **[OpenWeatherMap API](https://api.openweathermap.org)** to fetch weather data.  
-To use the API, you need to obtain a free API key from OpenWeatherMap:
+- 🌤️ **Real-Time Weather & 5-Day Forecast**: Accurate weather conditions, high/low daily temperatures, humidity, atmospheric pressure, wind speed, and sunrise/sunset times.
+- 🎨 **Material 3 Design System**:
+  - Full **Light Mode & Dark Mode** automatic support.
+  - Adaptive glassmorphism hero weather card with dynamic linear gradients based on system theme.
+  - Consistent typography scale and cohesive color tokens.
+- 📜 **Full-Screen Continuous Scrolling**: Home screen uses a single top-level `LazyColumn` for fluid, full-screen scrolling.
+- 🔍 **City Search**: Instant search for weather in any city worldwide with high-contrast, theme-adaptive text input.
+- ❤️ **Favorite Cities**: Save, browse, and manage favorite locations stored locally using **Room Database**.
+- ⚙️ **Customizable Units**: Toggle between **Metric (°C)** and **Imperial (°F)** with persistent storage using **DataStore Preferences**.
+- 🛡️ **Offline & Network Error Handling**: User-friendly feedback for network timeouts, lack of internet connection, and invalid city queries.
 
-1. Sign up at [OpenWeatherMap](https://home.openweathermap.org/users/sign_up)
-2. Get your **API Key** from the dashboard
-3. Add the API Key to your project's `local.properties` file:
+---
+
+## 🛠️ Tech Stack & Libraries
+
+| Layer / Concern | Technology |
+|---|---|
+| **Language** | [Kotlin](https://kotlinlang.org/) 2.0+ (100% Coroutines & Flow) |
+| **UI Framework** | [Jetpack Compose](https://developer.android.com/jetpack/compose) + [Material 3](https://developer.android.com/develop/ui/compose/designsystems/material3) |
+| **Image Loading** | [Coil Compose](https://coil-kt.github.io/coil/compose/) |
+| **Architecture** | MVVM + Clean Architecture (Presentation, Domain, Data) |
+| **Dependency Injection** | [Dagger Hilt](https://dagger.dev/hilt/) + KSP |
+| **Networking** | [Retrofit 2](https://square.github.io/retrofit/) + [OkHttp 3](https://square.github.io/okhttp/) + Gson |
+| **Local Database** | [Room Database](https://developer.android.com/training/data-storage/room) + SQLite |
+| **Key-Value Persistence** | [Jetpack DataStore Preferences](https://developer.android.com/topic/libraries/architecture/datastore) |
+| **Testing** | JUnit 4, Mockito, Robolectric, Coroutines Test (`21 passed`) |
+
+---
+
+## 🔑 OpenWeatherMap API Setup (Free Tier)
+
+This app is configured out-of-the-box for **OpenWeatherMap Free Plan** accounts:
+
+1. Create a free account at [OpenWeatherMap](https://home.openweathermap.org/users/sign_up).
+2. Generate your **API Key** from the [API Keys Dashboard](https://home.openweathermap.org/api_keys).
+3. Open or create the `local.properties` file in the root directory of this project:
 
 ```properties
-API_KEY=""
+sdk.dir=/path/to/your/android/sdk
+API_KEY="YOUR_OPENWEATHERMAP_API_KEY_HERE"
 ```
+
+> [!NOTE]
+> `local.properties` is ignored by Git, ensuring your API key remains secure and will never be committed to source control.
 
 ---
 
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Android Studio **Giraffe | 2023.3.1** or later
-- Kotlin **1.9.0+**
-- Gradle **8.0+**
-- Minimum SDK **24** (Android 7.0+)
+- **Android Studio**: Jellyfish / Koala / Ladybug or newer
+- **JDK**: Version 11 or 17
+- **Android SDK**: Minimum SDK 24 (Android 7.0+) | Target SDK 35
 
-### Setup Instructions
-1. **Clone the repository**
+### Run the App
+1. Clone the repository:
    ```sh
-   git clone https://github.com/felippeneves/kotlin-compose-weather-app.git
-   cd WeatherApp
+   git clone https://github.com/muhammad-nomankd/kotlin-compose-weather-app
+   cd kotlin-compose-weather-app
    ```
-
-2. **Open the project in Android Studio**  
-   - Sync Gradle files
-
-3. **Add your API Key**  
-   Edit `local.properties`:
-   ```properties
-   API_KEY=""
-   ```
-
-4. **Run the project**
-   - Select a device/emulator and press **Run ▶️** in Android Studio.
+2. Open the project in Android Studio.
+3. Add your `API_KEY` in `local.properties`.
+4. Click **Sync Project with Gradle Files**.
+5. Select an Android emulator or physical device and click **Run ▶️**.
 
 ---
 
-## 🧪 Testing
+## 🧪 Running Tests
 
-To run tests, execute:
+Execute the unit test suite:
 
 ```sh
 ./gradlew testDebugUnitTest
 ```
 
-For UI tests:
+All 21 domain, mapper, and use case unit tests will execute and pass.
 
-```sh
-./gradlew connectedAndroidTest
+---
+
+## 🏗️ Architecture Overview
+
+The app strictly follows **Clean Architecture** with unidirectional data flow (UDF):
+
 ```
-
----
-
-## 🏗️ Architecture
-
-This project follows **Clean Architecture** principles with modular layers:
-
-- **Presentation Layer**: Jetpack Compose UI, ViewModels  
-- **Domain Layer**: Use Cases, Business Logic  
-- **Data Layer**: Repositories, API & Database  
-
-📉 **MVVM Pattern** ensures separation of concerns and testability.
-
----
-
-## 📸 Screenshots
-
-### Home Screen
-
-<img src="screenshots/home_screen.png" alt="Home Screen" width="400">
-
-### Favorite Cities Screen
-
-<img src="screenshots/favorite_cities_screen.png" alt="Favorite Cities Screen" width="400">
-
-### Search Screen
-
-<img src="screenshots/search_screen.png" alt="Search Screen" width="400">
-
-### Settings Screen
-
-<img src="screenshots/settings_screen.png" alt="Settings Screen" width="400">
+app/src/main/java/com/felippeneves/kotlin_compose_weather_app/
+│
+├── core/                  # Utilities, extensions, providers, and exceptions
+├── data/
+│   ├── local/             # Room Database (DAOs, Entities) & DataStore Manager
+│   ├── mapper/            # API Response & Entity to Domain Model mappers
+│   ├── model/             # Network response DTOs & Room entities
+│   ├── remote/            # Retrofit WeatherService & Network interceptors
+│   └── repository/        # Repository implementations
+│
+├── di/                    # Dagger Hilt dependency injection modules
+├── domain/
+│   ├── model/             # Core business models (Weather, WeatherItem, Temp, City)
+│   ├── repository/        # Repository interfaces
+│   └── usecase/           # Isolated business use cases
+│
+├── presentation/
+│   ├── components/        # Reusable Compose UI components (TopBar, Search, Dialogs)
+│   ├── features/
+│   │   ├── home/          # Home screen, hero card, daily weather, metrics
+│   │   ├── favorite_cities/# Saved locations list & management
+│   │   ├── search/        # Search city screen
+│   │   └── settings/      # Measurement unit preferences
+│   └── navigation/        # Compose Navigation Graph & Destination routes
+│
+└── ui/theme/              # Material 3 Color Schemes, Typography, Shapes, and Theme
+```
 
 ---
 
 ## 📜 License
 
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
-
----
-
-## 🤝 Contributing
-
-Want to contribute? Pull requests are welcome!  
-For major changes, please open an issue first to discuss the proposal.
-
----
-
-## 📨 Contact
-
-💬 **Author:** [Felippe Neves](https://github.com/felippeneves)  
-📌 **GitHub:** [WeatherApp](https://github.com/felippeneves/kotlin-compose-weather-app)
-
----
-
-🔹 **Happy Coding! 🚀**
-
-
+This project is open-source and available under the [MIT License](LICENSE). []

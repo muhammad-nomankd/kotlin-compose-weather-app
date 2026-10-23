@@ -12,7 +12,6 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
@@ -37,11 +36,16 @@ fun SearchInput(
         maxLines = 1,
         singleLine = true,
         colors = OutlinedTextFieldDefaults.colors(
+            focusedTextColor = MaterialTheme.colorScheme.onSurface,
+            unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+            focusedContainerColor = MaterialTheme.colorScheme.surface,
+            unfocusedContainerColor = MaterialTheme.colorScheme.surface,
             focusedBorderColor = MaterialTheme.colorScheme.primary,
-            focusedTextColor = MaterialTheme.colorScheme.onBackground,
             unfocusedBorderColor = MaterialTheme.colorScheme.outline,
             focusedTrailingIconColor = MaterialTheme.colorScheme.primary,
-            unfocusedTrailingIconColor = MaterialTheme.colorScheme.outline
+            unfocusedTrailingIconColor = MaterialTheme.colorScheme.outline,
+            focusedLabelColor = MaterialTheme.colorScheme.primary,
+            unfocusedLabelColor = MaterialTheme.colorScheme.outline
         )
     )
 }
