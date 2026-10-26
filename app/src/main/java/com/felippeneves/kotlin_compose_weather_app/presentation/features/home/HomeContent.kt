@@ -2,11 +2,16 @@ package com.felippeneves.kotlin_compose_weather_app.presentation.features.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -24,7 +29,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.felippeneves.kotlin_compose_weather_app.R
-import com.felippeneves.kotlin_compose_weather_app.core.utils.DateUtil
 import com.felippeneves.kotlin_compose_weather_app.core.utils.TemperatureFormatter
 import com.felippeneves.kotlin_compose_weather_app.presentation.components.CityNotFoundComp
 import com.felippeneves.kotlin_compose_weather_app.presentation.components.CustomToast
@@ -32,7 +36,6 @@ import com.felippeneves.kotlin_compose_weather_app.presentation.components.Custo
 import com.felippeneves.kotlin_compose_weather_app.presentation.components.LoadingIndicator
 import com.felippeneves.kotlin_compose_weather_app.presentation.features.home.components.DailyWeatherItem
 import com.felippeneves.kotlin_compose_weather_app.presentation.features.home.components.HumidityWindPressureRow
-import com.felippeneves.kotlin_compose_weather_app.presentation.features.home.components.SunsetSunriseRow
 import com.felippeneves.kotlin_compose_weather_app.presentation.features.home.components.WeatherStatusWidget
 import com.felippeneves.kotlin_compose_weather_app.presentation.features.home.events.HomeEvent
 import com.felippeneves.kotlin_compose_weather_app.presentation.features.home.state.HomeState
@@ -53,10 +56,14 @@ fun HomeContent(
         toastEvent.collect { message -> toastMessage = message }
     }
 
+    val countryName = weather?.city?.country ?: ""
+    val locationSubtitle = if (countryName.isNotEmpty()) "Khyber Pakhtunkhwa, $countryName" else ""
+
     Scaffold(
         topBar = {
             CustomTopAppBar(
                 title = uiState.currentCity.name,
+                subtitle = locationSubtitle,
                 showBackButton = false,
                 showSearchButton = true,
                 showFavoriteButton = true,
@@ -83,20 +90,10 @@ fun HomeContent(
 
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
-                        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp),
-                        verticalArrangement = Arrangement.spacedBy(6.dp),
+                        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        item {
-                            Text(
-                                modifier = Modifier.padding(bottom = 2.dp),
-                                text = DateUtil.formatDate(currentWeather.timestampDate),
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                fontWeight = FontWeight.Medium
-                            )
-                        }
-
                         item {
                             WeatherStatusWidget(weather = currentWeather, isImperial = isImperial)
                         }
@@ -106,23 +103,46 @@ fun HomeContent(
                         }
 
                         item {
-                            SunsetSunriseRow(weather = currentWeather)
-                        }
-
-                        item {
-                            Text(
+                            Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(top = 10.dp, bottom = 4.dp),
-                                text = stringResource(R.string.this_week),
-                                style = MaterialTheme.typography.titleMedium,
-                                fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colorScheme.onBackground
-                            )
+                                    .padding(top = 12.dp, bottom = 4.dp),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.DateRange,
+                                        contentDescription = "Calendar",
+                                        tint = MaterialTheme.colorScheme.secondary,
+                                        modifier = Modifier.size(20.dp)
+                                    )
+                                    Text(
+                                        text = stringResource(R.string.this_week),
+                                        style = MaterialTheme.typography.titleMedium,
+                                        fontWeight = FontWeight.Bold,
+                                        color = MaterialTheme.colorScheme.onBackground
+                                    )
+                                }
+
+                                Text(
+                                    text = "7 Days >",
+                                    style = MaterialTheme.typography.labelSmall,
+                                    fontWeight = FontWeight.Medium,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
                         }
 
-                        items(items = weather.weeklyWeatherList) { item ->
-                            DailyWeatherItem(weather = item, isImperial = isImperial)
+                        itemsIndexed(items = weather.weeklyWeatherList) { index, item ->
+                            DailyWeatherItem(
+                                weather = item,
+                                isImperial = isImperial,
+                                isToday = (index == 0)
+                            )
                         }
                     }
                 }

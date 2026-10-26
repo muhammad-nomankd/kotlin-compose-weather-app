@@ -20,7 +20,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.felippeneves.kotlin_compose_weather_app.R
+import com.felippeneves.kotlin_compose_weather_app.core.utils.DateUtil
 import com.felippeneves.kotlin_compose_weather_app.core.utils.SpeedUtil
 import com.felippeneves.kotlin_compose_weather_app.domain.model.WeatherItem
 
@@ -32,87 +34,154 @@ fun HumidityWindPressureRow(
 ) {
     Row(
         modifier = modifier
-            .padding(vertical = 8.dp)
+            .padding(vertical = 4.dp)
             .fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(10.dp)
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        WeatherStatCard(
+        // Card 1: Humidity
+        WeatherMetricCard(
             modifier = Modifier.weight(1f),
             iconRes = R.drawable.humidity,
-            value = "${weather.humidity}%",
             label = "Humidity",
-            iconBgColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.15f),
-            iconTint = MaterialTheme.colorScheme.primary
+            value = "${weather.humidity}%",
+            badgeBgColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.2f),
+            badgeIconTint = MaterialTheme.colorScheme.primary
         )
 
-        WeatherStatCard(
-            modifier = Modifier.weight(1f),
-            iconRes = R.drawable.pressure,
-            value = "${weather.pressure} hPa",
-            label = "Pressure",
-            iconBgColor = Color(0xFF8B5CF6).copy(alpha = 0.15f),
-            iconTint = Color(0xFF8B5CF6)
-        )
-
-        WeatherStatCard(
+        // Card 2: Wind Speed
+        WeatherMetricCard(
             modifier = Modifier.weight(1f),
             iconRes = R.drawable.wind,
+            label = "Wind Speed",
             value = SpeedUtil.formatSpeed(weather.speed, isImperial),
-            label = "Wind",
-            iconBgColor = Color(0xFF10B981).copy(alpha = 0.15f),
-            iconTint = Color(0xFF10B981)
+            badgeBgColor = MaterialTheme.colorScheme.secondary.copy(alpha = 0.2f),
+            badgeIconTint = MaterialTheme.colorScheme.secondary
+        )
+
+        // Card 3: Pressure
+        WeatherMetricCard(
+            modifier = Modifier.weight(1f),
+            iconRes = R.drawable.pressure,
+            label = "Pressure",
+            value = "${weather.pressure} hPa",
+            badgeBgColor = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.2f),
+            badgeIconTint = MaterialTheme.colorScheme.tertiary
+        )
+
+        // Card 4: Sunrise / Sunset
+        SunTimesMetricCard(
+            modifier = Modifier.weight(1f),
+            sunriseStr = DateUtil.formatDateTime(weather.sunrise),
+            sunsetStr = DateUtil.formatDateTime(weather.sunset)
         )
     }
 }
 
 @Composable
-private fun WeatherStatCard(
+private fun WeatherMetricCard(
     modifier: Modifier = Modifier,
     iconRes: Int,
-    value: String,
     label: String,
-    iconBgColor: Color,
-    iconTint: Color
+    value: String,
+    badgeBgColor: Color,
+    badgeIconTint: Color
 ) {
     Surface(
         modifier = modifier,
-        shape = RoundedCornerShape(18.dp),
-        color = MaterialTheme.colorScheme.surfaceVariant,
+        shape = RoundedCornerShape(20.dp),
+        color = MaterialTheme.colorScheme.surface,
         shadowElevation = 2.dp
     ) {
         Column(
             modifier = Modifier.padding(12.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            horizontalAlignment = Alignment.Start,
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
             Surface(
                 shape = CircleShape,
-                color = iconBgColor,
-                modifier = Modifier.size(36.dp)
+                color = badgeBgColor,
+                modifier = Modifier.size(34.dp)
             ) {
                 Icon(
                     painter = painterResource(id = iconRes),
                     contentDescription = label,
-                    tint = iconTint,
+                    tint = badgeIconTint,
                     modifier = Modifier
-                        .padding(8.dp)
-                        .size(20.dp)
+                        .padding(7.dp)
+                        .size(18.dp)
                 )
             }
 
             Text(
-                text = value,
-                style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface,
-                modifier = Modifier.padding(top = 8.dp)
+                text = label,
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(top = 10.dp)
             )
 
             Text(
-                text = label,
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                text = value,
+                fontSize = 13.sp,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.padding(top = 2.dp)
             )
+        }
+    }
+}
+
+@Composable
+private fun SunTimesMetricCard(
+    modifier: Modifier = Modifier,
+    sunriseStr: String,
+    sunsetStr: String
+) {
+    Surface(
+        modifier = modifier,
+        shape = RoundedCornerShape(20.dp),
+        color = MaterialTheme.colorScheme.surface,
+        shadowElevation = 2.dp
+    ) {
+        Column(
+            modifier = Modifier.padding(10.dp),
+            horizontalAlignment = Alignment.Start,
+            verticalArrangement = Arrangement.SpaceBetween
+        ) {
+            Surface(
+                shape = CircleShape,
+                color = Color(0xFFFFB300).copy(alpha = 0.25f),
+                modifier = Modifier.size(34.dp)
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.sunrise),
+                    contentDescription = "Sun",
+                    tint = Color(0xFFFFB300),
+                    modifier = Modifier
+                        .padding(6.dp)
+                        .size(20.dp)
+                )
+            }
+
+            Column(
+                modifier = Modifier.padding(top = 6.dp),
+                verticalArrangement = Arrangement.spacedBy(2.dp)
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(3.dp)
+                ) {
+                    Text(text = "↑", color = MaterialTheme.colorScheme.primary, fontSize = 10.sp, fontWeight = FontWeight.Bold)
+                    Text(text = sunriseStr, fontSize = 10.sp, color = MaterialTheme.colorScheme.onSurface, fontWeight = FontWeight.Bold)
+                }
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(3.dp)
+                ) {
+                    Text(text = "↓", color = MaterialTheme.colorScheme.error, fontSize = 10.sp, fontWeight = FontWeight.Bold)
+                    Text(text = sunsetStr, fontSize = 10.sp, color = MaterialTheme.colorScheme.onSurface, fontWeight = FontWeight.Bold)
+                }
+            }
         }
     }
 }

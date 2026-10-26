@@ -1,16 +1,20 @@
 package com.felippeneves.kotlin_compose_weather_app.presentation.components
 
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -31,7 +35,20 @@ fun SearchInput(
         label = { Text(text = title) },
         shape = RoundedCornerShape(16.dp),
         trailingIcon = {
-            Icon(imageVector = Icons.Outlined.Search, contentDescription = null)
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                if (query.isNotEmpty()) {
+                    IconButton(onClick = { onTextChanged("") }) {
+                        Icon(
+                            imageVector = Icons.Default.Clear,
+                            contentDescription = "Clear search"
+                        )
+                    }
+                }
+                Icon(
+                    imageVector = Icons.Outlined.Search,
+                    contentDescription = "Search icon"
+                )
+            }
         },
         maxLines = 1,
         singleLine = true,
@@ -54,7 +71,7 @@ fun SearchInput(
 @Composable
 private fun Preview() {
     SearchInput(
-        query = "",
+        query = "São Paulo",
         title = "Search",
         onTextChanged = {}
     )

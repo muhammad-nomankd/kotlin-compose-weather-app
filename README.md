@@ -19,15 +19,29 @@ The application integrates with the **[OpenWeatherMap API](https://openweatherma
 
 ## 📸 Screenshots
 
-| Home Screen | Search Screen |
+### 🏠 Home Screen
+
+| Light Mode | Dark Mode |
 |:---:|:---:|
-| <img src="screenshots/home_screen.png" width="320"/> | <img src="screenshots/search_screen.png" width="320"/> |
+| <img src="screenshots/home_light.png?raw=true" width="320"/> | <img src="screenshots/home_dark.png?raw=true" width="320"/> |
 
-| Favorite Cities Screen | Settings Screen |
+### 🔍 Search Screen
+
+| Light Mode | Dark Mode |
 |:---:|:---:|
-| <img src="screenshots/favorite_cities_screen.png" width="320"/> | <img src="screenshots/settings_screen.png" width="320"/> |
+| <img src="screenshots/search_light.png?raw=true" width="320"/> | <img src="screenshots/search_dark.png?raw=true" width="320"/> |
 
+### ❤️ Favorite Cities Screen
 
+| Light Mode | Dark Mode |
+|:---:|:---:|
+| <img src="screenshots/favorite_light.png?raw=true" width="320"/> | <img src="screenshots/favorite_dark.png?raw=true" width="320"/> |
+
+### ⚙️ Settings Screen
+
+| Light Mode | Dark Mode |
+|:---:|:---:|
+| <img src="screenshots/setting_light.png?raw=true" width="320"/> | <img src="screenshots/setting_dark.png?raw=true" width="320"/> |
 ---
 
 ## ✨ Features & Highlights
@@ -89,7 +103,7 @@ API_KEY="YOUR_OPENWEATHERMAP_API_KEY_HERE"
 ### Run the App
 1. Clone the repository:
    ```sh
-   git clone https://github.com/muhammad-nomankd/kotlin-compose-weather-app
+   git clone https://github.com/muhammad-nomankd/kotlin-compose-weather-app.git
    cd kotlin-compose-weather-app
    ```
 2. Open the project in Android Studio.
@@ -148,4 +162,4 @@ app/src/main/java/com/felippeneves/kotlin_compose_weather_app/
 
 ## 📜 License
 
-This project is open-source and available under the [MIT License](LICENSE). []
+This project is open-source and available under the [MIT License](LICENSE).

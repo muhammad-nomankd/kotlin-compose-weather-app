@@ -20,13 +20,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
+import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
 fun CustomToast(message: String, onDismiss: () -> Unit) {
     var isVisible by remember { mutableStateOf(true) }
 
     LaunchedEffect(Unit) {
-        delay(2000)
+        delay(2000.milliseconds)
         isVisible = false
         onDismiss()
     }
